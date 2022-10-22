@@ -2,7 +2,7 @@ package ma.octo.assignement.domain.util;
 
 public enum EventType {
 
-  TRANSFER("transfer"),
+  TRANSFER("Transfert"),
   DEPOSIT("Deposit d'argent");
 
   private String type;

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "DEP")
+@Table(name = "DEPOSIT")
 public class MoneyDeposit {
 
   @Id
