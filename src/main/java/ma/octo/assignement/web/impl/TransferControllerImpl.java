@@ -37,7 +37,7 @@ class TransferControllerImpl implements TransferController {
     }
 
     @Override
-    public TransferResponseDto createTransfer(@RequestBody TransferRequestDto transferRequestDto) throws CompteNonExistantException, TransactionException {
+    public TransferResponseDto createTransfer(TransferRequestDto transferRequestDto) throws CompteNonExistantException, TransactionException {
         log.info("Calling create Transfer from Transfer service");
 
         return transferService.createTransfer(transferRequestDto);

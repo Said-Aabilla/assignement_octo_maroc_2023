@@ -4,6 +4,8 @@ import ma.octo.assignement.dto.TransferResponseDto;
 import ma.octo.assignement.exceptions.CompteNonExistantException;
 import ma.octo.assignement.exceptions.TransactionException;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 import static ma.octo.assignement.domain.util.ApiPaths.*;
 
@@ -14,6 +16,6 @@ public interface TransferController {
     List<TransferResponseDto> getAllTransfers() ;
 
     @PostMapping
-    TransferResponseDto createTransfer (TransferRequestDto transferRequestDto) throws CompteNonExistantException, TransactionException;
+    TransferResponseDto createTransfer (@Valid @RequestBody TransferRequestDto transferRequestDto) throws CompteNonExistantException, TransactionException;
 
 }

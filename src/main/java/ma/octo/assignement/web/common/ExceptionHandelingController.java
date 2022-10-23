@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import ma.octo.assignement.dto.ErrorResponseDto;
 import ma.octo.assignement.exceptions.CompteNonExistantException;
 import ma.octo.assignement.exceptions.SoldeDisponibleInsuffisantException;
+import ma.octo.assignement.exceptions.TransactionException;
 import ma.octo.assignement.utils.ApiMessageSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static ma.octo.assignement.domain.util.ApiErrorCodes.COMPTE_NOT_FOUND_EXCEPTION;
-import static ma.octo.assignement.domain.util.ApiErrorCodes.SOLDE_DISPONIBLE_INSUFFISANT_EXCEPTION;
+import static ma.octo.assignement.domain.util.ApiErrorCodes.*;
 
 @ControllerAdvice
 @AllArgsConstructor
@@ -46,6 +46,17 @@ public class ExceptionHandelingController {
         return ResponseEntity
                 .status(HttpServletResponse.SC_NOT_FOUND)
                 .body(new ErrorResponseDto(COMPTE_NOT_FOUND_EXCEPTION.getCode(), apiMessageSource.getMessage(COMPTE_NOT_FOUND_EXCEPTION.getMessageKey())));
+
+    }
+
+    @ExceptionHandler(TransactionException.class)
+    public ResponseEntity<ErrorResponseDto> handleTransactionException(TransactionException transactionException) {
+
+        logger.info("Handle TransactionException:  {} ", transactionException.getMessage());
+
+        return ResponseEntity
+                .status(HttpServletResponse.SC_BAD_REQUEST)
+                    .body(new ErrorResponseDto(TRANSACTION_EXCEPTION.getCode(), apiMessageSource.getMessage(transactionException.getMessage())));
 
     }
 }

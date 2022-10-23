@@ -1,5 +1,6 @@
 package ma.octo.assignement.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import ma.octo.assignement.domain.AuditDeposit;
 import ma.octo.assignement.domain.AuditTransfer;
 import ma.octo.assignement.domain.util.EventType;
@@ -19,8 +20,10 @@ public class AuditServiceImpl  implements AuditService {
 
     Logger LOGGER = LoggerFactory.getLogger(AuditService.class);
 
+
     @Autowired
     private AuditTransferRepository auditTransferRepository;
+    @Autowired
     private AuditDepositRepository auditDepositRepository;
 
     @Override

@@ -20,13 +20,13 @@ public class MoneyDeposit {
   private Date dateExecution;
 
   @Column
-  private String nom_prenom_emetteur;
+  private String fullNameEmetteur;
 
   @ManyToOne
   private Compte compteBeneficiaire;
 
   @Column(length = 200)
-  private String motifDeposit;
+  private String motif;
 
   public BigDecimal getMontant() {
     return Montant;
@@ -52,12 +52,12 @@ public class MoneyDeposit {
     this.compteBeneficiaire = compteBeneficiaire;
   }
 
-  public String getMotifDeposit() {
-    return motifDeposit;
+  public String getMotif() {
+    return motif;
   }
 
-  public void setMotifDeposit(String motifDeposit) {
-    this.motifDeposit = motifDeposit;
+  public void setMotif(String motif) {
+    this.motif = motif;
   }
 
   public Long getId() {
@@ -68,11 +68,11 @@ public class MoneyDeposit {
     this.id = id;
   }
 
-  public String getNom_prenom_emetteur() {
-    return nom_prenom_emetteur;
+  public String getfullNameEmetteur() {
+    return fullNameEmetteur;
   }
 
-  public void setNom_prenom_emetteur(String nom_prenom_emetteur) {
-    this.nom_prenom_emetteur = nom_prenom_emetteur;
+  public void setfullNameEmetteur(String fullNameEmetteur) {
+    this.fullNameEmetteur = fullNameEmetteur;
   }
 }

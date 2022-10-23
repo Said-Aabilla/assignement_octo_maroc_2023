@@ -13,11 +13,9 @@ import java.util.List;
 @Component
 public class TransferMapperImpl  implements TransferMapper {
 
-    private static TransferResponseDto transferResponseDto;
-
     @Override
     public TransferResponseDto toTransferResponseDto(Transfer transfer) {
-        transferResponseDto = new TransferResponseDto();
+        TransferResponseDto transferResponseDto = new TransferResponseDto();
         transferResponseDto.setNrCompteEmetteur(transfer.getCompteEmetteur().getNrCompte());
         transferResponseDto.setNrCompteBeneficiaire(transfer.getCompteBeneficiaire().getNrCompte());
         transferResponseDto.setMontant(transfer.getMontantTransfer());

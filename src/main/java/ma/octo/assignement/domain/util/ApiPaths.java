@@ -8,6 +8,7 @@ public final class ApiPaths {
     public static final String API = "/api";
     public static final String V1 = "/V1";
     public static final String TRANSFERS = "/transfers";
+    public static final String DEPOSITS = "/deposits";
 
 
     public static final String ID = "/{id}";

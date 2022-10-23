@@ -97,6 +97,7 @@ public class TransferServiceImpl implements TransferService {
 
         if (compteEmetteur.getSolde().intValue() - montant < 0) {
             log.error("Solde insuffisant pour effectuer le transfert");
+            throw new TransactionException("Solde insuffisant pour effectuer le transfert");
         }
     }
 

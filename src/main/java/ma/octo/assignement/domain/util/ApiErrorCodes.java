@@ -5,7 +5,8 @@ public enum ApiErrorCodes implements KeyValueError {
 
     MISSING_FIELD_ERROR(0, "field.not.found"),
     COMPTE_NOT_FOUND_EXCEPTION(1, "compte.not.found"),
-    SOLDE_DISPONIBLE_INSUFFISANT_EXCEPTION(2, "solde.disponible.insuffisant"),
+    TRANSACTION_EXCEPTION(2, "transaction.not.permitted"),
+    SOLDE_DISPONIBLE_INSUFFISANT_EXCEPTION(3, "solde.disponible.insuffisant"),
 
     ;
 
