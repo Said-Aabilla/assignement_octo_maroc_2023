@@ -1,8 +1,7 @@
 package ma.octo.assignement.web.facade;
 
-import ma.octo.assignement.dto.MoneyDepositRequestDto;
-import ma.octo.assignement.dto.MoneyDepositResponseDto;
-import ma.octo.assignement.dto.TransferResponseDto;
+import ma.octo.assignement.dto.request.MoneyDepositRequestDto;
+import ma.octo.assignement.dto.response.MoneyDepositResponseDto;
 import ma.octo.assignement.exceptions.CompteNonExistantException;
 import ma.octo.assignement.exceptions.TransactionException;
 import org.springframework.web.bind.annotation.*;

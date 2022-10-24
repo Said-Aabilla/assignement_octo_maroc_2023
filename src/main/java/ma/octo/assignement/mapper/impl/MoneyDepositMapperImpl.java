@@ -3,13 +3,14 @@ package ma.octo.assignement.mapper.impl;
 
 import ma.octo.assignement.domain.Compte;
 import ma.octo.assignement.domain.MoneyDeposit;
-import ma.octo.assignement.dto.MoneyDepositRequestDto;
-import ma.octo.assignement.dto.MoneyDepositResponseDto;
+import ma.octo.assignement.dto.request.MoneyDepositRequestDto;
+import ma.octo.assignement.dto.response.MoneyDepositResponseDto;
 import ma.octo.assignement.mapper.facade.MoneyDepositMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MoneyDepositMapperImpl implements MoneyDepositMapper {
@@ -17,6 +18,9 @@ public class MoneyDepositMapperImpl implements MoneyDepositMapper {
 
     @Override
     public MoneyDepositResponseDto toMoneyDepositResponseDto(MoneyDeposit deposit) {
+        if (deposit == null) {
+            return null;
+        }
         MoneyDepositResponseDto moneyDepositResponseDto = new MoneyDepositResponseDto();
         moneyDepositResponseDto.setNrCompteBeneficiaire(deposit.getCompteBeneficiaire().getNrCompte());
         moneyDepositResponseDto.setMontant(deposit.getMontant());
@@ -28,6 +32,9 @@ public class MoneyDepositMapperImpl implements MoneyDepositMapper {
 
     @Override
     public MoneyDeposit toMoneyDeposit(MoneyDepositRequestDto moneyDepositRequestDto, Compte compteBeneficiaire) {
+        if (moneyDepositRequestDto == null) {
+            return null;
+        }
         MoneyDeposit deposit = new MoneyDeposit();
         deposit.setDateExecution(moneyDepositRequestDto.getDateExecution());
         deposit.setfullNameEmetteur(moneyDepositRequestDto.getFullNameEmetteur());
@@ -42,6 +49,6 @@ public class MoneyDepositMapperImpl implements MoneyDepositMapper {
         if (deposits == null || deposits.isEmpty()) {
             return Collections.emptyList();
         }
-        return deposits.stream().map(this::toMoneyDepositResponseDto).toList();
+        return deposits.stream().map(this::toMoneyDepositResponseDto).collect(Collectors.toList());
     }
 }

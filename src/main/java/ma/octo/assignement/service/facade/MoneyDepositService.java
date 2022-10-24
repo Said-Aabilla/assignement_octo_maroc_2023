@@ -1,8 +1,8 @@
 package ma.octo.assignement.service.facade;
 
 
-import ma.octo.assignement.dto.MoneyDepositRequestDto;
-import ma.octo.assignement.dto.MoneyDepositResponseDto;
+import ma.octo.assignement.dto.request.MoneyDepositRequestDto;
+import ma.octo.assignement.dto.response.MoneyDepositResponseDto;
 import ma.octo.assignement.exceptions.CompteNonExistantException;
 import ma.octo.assignement.exceptions.TransactionException;
 

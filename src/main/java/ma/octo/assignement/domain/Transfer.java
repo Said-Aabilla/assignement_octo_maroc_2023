@@ -1,11 +1,18 @@
 package ma.octo.assignement.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Table(name = "TRANSFER")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Transfer {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

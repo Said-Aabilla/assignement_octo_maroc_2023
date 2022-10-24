@@ -2,19 +2,23 @@ package ma.octo.assignement.mapper.impl;
 
 import ma.octo.assignement.domain.Compte;
 import ma.octo.assignement.domain.Transfer;
-import ma.octo.assignement.dto.TransferRequestDto;
-import ma.octo.assignement.dto.TransferResponseDto;
+import ma.octo.assignement.dto.request.TransferRequestDto;
+import ma.octo.assignement.dto.response.TransferResponseDto;
 import ma.octo.assignement.mapper.facade.TransferMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class TransferMapperImpl  implements TransferMapper {
 
     @Override
     public TransferResponseDto toTransferResponseDto(Transfer transfer) {
+        if (transfer == null) {
+            return null;
+        }
         TransferResponseDto transferResponseDto = new TransferResponseDto();
         transferResponseDto.setNrCompteEmetteur(transfer.getCompteEmetteur().getNrCompte());
         transferResponseDto.setNrCompteBeneficiaire(transfer.getCompteBeneficiaire().getNrCompte());
@@ -28,6 +32,9 @@ public class TransferMapperImpl  implements TransferMapper {
 
     @Override
     public Transfer toTransfer(TransferRequestDto transferRequestDto, Compte compteBeneficiaire, Compte compteEmetteur) {
+        if (transferRequestDto == null) {
+            return null;
+        }
         Transfer transfer = new Transfer();
         transfer.setDateExecution(transferRequestDto.getDate());
         transfer.setCompteBeneficiaire(compteBeneficiaire);
@@ -43,6 +50,6 @@ public class TransferMapperImpl  implements TransferMapper {
         if (transfers == null || transfers.isEmpty()) {
             return Collections.emptyList();
         }
-        return transfers.stream().map(this::toTransferResponseDto).toList();
+        return transfers.stream().map(this::toTransferResponseDto).collect(Collectors.toList());
     }
 }

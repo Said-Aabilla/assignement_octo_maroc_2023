@@ -1,6 +1,6 @@
 package ma.octo.assignement.web.facade;
-import ma.octo.assignement.dto.TransferRequestDto;
-import ma.octo.assignement.dto.TransferResponseDto;
+import ma.octo.assignement.dto.request.TransferRequestDto;
+import ma.octo.assignement.dto.response.TransferResponseDto;
 import ma.octo.assignement.exceptions.CompteNonExistantException;
 import ma.octo.assignement.exceptions.TransactionException;
 import org.springframework.web.bind.annotation.*;

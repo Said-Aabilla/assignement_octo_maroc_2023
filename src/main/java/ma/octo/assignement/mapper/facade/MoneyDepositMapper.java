@@ -2,10 +2,8 @@ package ma.octo.assignement.mapper.facade;
 
 import ma.octo.assignement.domain.Compte;
 import ma.octo.assignement.domain.MoneyDeposit;
-import ma.octo.assignement.domain.Transfer;
-import ma.octo.assignement.dto.MoneyDepositRequestDto;
-import ma.octo.assignement.dto.MoneyDepositResponseDto;
-import ma.octo.assignement.dto.TransferResponseDto;
+import ma.octo.assignement.dto.request.MoneyDepositRequestDto;
+import ma.octo.assignement.dto.response.MoneyDepositResponseDto;
 
 import java.util.List;
 

@@ -62,13 +62,5 @@ public class NiceBankApplication implements CommandLineRunner {
 
 		compteRepository.save(compte2);
 
-		Transfer v = new Transfer();
-		v.setMontantTransfer(BigDecimal.TEN);
-		v.setCompteBeneficiaire(compte2);
-		v.setCompteEmetteur(compte1);
-		v.setDateExecution(new Date());
-		v.setMotifTransfer("Assignment 2021");
-
-		transferRepository.save(v);
 	}
 }

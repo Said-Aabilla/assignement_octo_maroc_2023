@@ -2,16 +2,12 @@ package ma.octo.assignement.web.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ma.octo.assignement.dto.TransferRequestDto;
-import ma.octo.assignement.dto.TransferResponseDto;
+import ma.octo.assignement.dto.request.TransferRequestDto;
+import ma.octo.assignement.dto.response.TransferResponseDto;
 import ma.octo.assignement.exceptions.CompteNonExistantException;
-import ma.octo.assignement.exceptions.SoldeDisponibleInsuffisantException;
 import ma.octo.assignement.exceptions.TransactionException;
 import ma.octo.assignement.service.facade.TransferService;
 import ma.octo.assignement.web.facade.TransferController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

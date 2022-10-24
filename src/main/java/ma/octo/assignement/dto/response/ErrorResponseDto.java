@@ -1,4 +1,4 @@
-package ma.octo.assignement.dto;
+package ma.octo.assignement.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
