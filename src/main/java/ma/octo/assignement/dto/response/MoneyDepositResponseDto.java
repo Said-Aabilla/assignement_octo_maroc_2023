@@ -13,9 +13,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MoneyDepositResponseDto {
-    private BigDecimal Montant;
+    private BigDecimal amount;
     private Date dateExecution;
-    private String fullNameEmetteur;
-    private String nrCompteBeneficiaire;
+    private String fullNameTransmitter;
+    private String nrAccountBeneficiary;
     private String motif;
 }

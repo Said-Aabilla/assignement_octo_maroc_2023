@@ -1,7 +1,7 @@
 package ma.octo.assignement.mapper.impl;
 
 
-import ma.octo.assignement.domain.Compte;
+import ma.octo.assignement.domain.Account;
 import ma.octo.assignement.domain.MoneyDeposit;
 import ma.octo.assignement.dto.request.MoneyDepositRequestDto;
 import ma.octo.assignement.dto.response.MoneyDepositResponseDto;
@@ -22,24 +22,24 @@ public class MoneyDepositMapperImpl implements MoneyDepositMapper {
             return null;
         }
         MoneyDepositResponseDto moneyDepositResponseDto = new MoneyDepositResponseDto();
-        moneyDepositResponseDto.setNrCompteBeneficiaire(deposit.getCompteBeneficiaire().getNrCompte());
-        moneyDepositResponseDto.setMontant(deposit.getMontant());
+        moneyDepositResponseDto.setNrAccountBeneficiary(deposit.getAccountBeneficiary().getNrAccount());
+        moneyDepositResponseDto.setAmount(deposit.getAmount());
         moneyDepositResponseDto.setDateExecution(deposit.getDateExecution());
         moneyDepositResponseDto.setMotif(deposit.getMotif());
-        moneyDepositResponseDto.setFullNameEmetteur(deposit.getfullNameEmetteur());
+        moneyDepositResponseDto.setFullNameTransmitter(deposit.getFullNameTransmitter());
         return moneyDepositResponseDto;
     }
 
     @Override
-    public MoneyDeposit toMoneyDeposit(MoneyDepositRequestDto moneyDepositRequestDto, Compte compteBeneficiaire) {
+    public MoneyDeposit toMoneyDeposit(MoneyDepositRequestDto moneyDepositRequestDto, Account accountBeneficiary) {
         if (moneyDepositRequestDto == null) {
             return null;
         }
         MoneyDeposit deposit = new MoneyDeposit();
         deposit.setDateExecution(moneyDepositRequestDto.getDateExecution());
-        deposit.setfullNameEmetteur(moneyDepositRequestDto.getFullNameEmetteur());
-        deposit.setCompteBeneficiaire(compteBeneficiaire);
-        deposit.setMontant(moneyDepositRequestDto.getMontant());
+        deposit.setFullNameTransmitter(moneyDepositRequestDto.getFullNameTransmitter());
+        deposit.setAccountBeneficiary(accountBeneficiary);
+        deposit.setAmount(moneyDepositRequestDto.getAmount());
         deposit.setMotif(moneyDepositRequestDto.getMotif());
         return deposit;
     }

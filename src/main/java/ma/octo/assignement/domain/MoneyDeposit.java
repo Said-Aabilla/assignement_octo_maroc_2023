@@ -2,6 +2,7 @@ package ma.octo.assignement.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class MoneyDeposit {
 
   @Id
@@ -20,66 +22,19 @@ public class MoneyDeposit {
   private Long id;
 
   @Column(precision = 16, scale = 2, nullable = false)
-  private BigDecimal Montant;
+  private BigDecimal amount;
 
   @Column
   @Temporal(TemporalType.TIMESTAMP)
   private Date dateExecution;
 
   @Column
-  private String fullNameEmetteur;
+  private String fullNameTransmitter;
 
   @ManyToOne
-  private Compte compteBeneficiaire;
+  private Account accountBeneficiary;
 
   @Column(length = 200)
   private String motif;
 
-  public BigDecimal getMontant() {
-    return Montant;
-  }
-
-  public void setMontant(BigDecimal montant) {
-    this.Montant = montant;
-  }
-
-  public Date getDateExecution() {
-    return dateExecution;
-  }
-
-  public void setDateExecution(Date dateExecution) {
-    this.dateExecution = dateExecution;
-  }
-
-  public Compte getCompteBeneficiaire() {
-    return compteBeneficiaire;
-  }
-
-  public void setCompteBeneficiaire(Compte compteBeneficiaire) {
-    this.compteBeneficiaire = compteBeneficiaire;
-  }
-
-  public String getMotif() {
-    return motif;
-  }
-
-  public void setMotif(String motif) {
-    this.motif = motif;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getfullNameEmetteur() {
-    return fullNameEmetteur;
-  }
-
-  public void setfullNameEmetteur(String fullNameEmetteur) {
-    this.fullNameEmetteur = fullNameEmetteur;
-  }
 }

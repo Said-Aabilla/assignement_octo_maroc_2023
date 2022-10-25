@@ -1,6 +1,6 @@
 package ma.octo.assignement.mapper.impl;
 
-import ma.octo.assignement.domain.Compte;
+import ma.octo.assignement.domain.Account;
 import ma.octo.assignement.domain.Transfer;
 import ma.octo.assignement.dto.request.TransferRequestDto;
 import ma.octo.assignement.dto.response.TransferResponseDto;
@@ -20,27 +20,27 @@ public class TransferMapperImpl  implements TransferMapper {
             return null;
         }
         TransferResponseDto transferResponseDto = new TransferResponseDto();
-        transferResponseDto.setNrCompteEmetteur(transfer.getCompteEmetteur().getNrCompte());
-        transferResponseDto.setNrCompteBeneficiaire(transfer.getCompteBeneficiaire().getNrCompte());
-        transferResponseDto.setMontant(transfer.getMontantTransfer());
-        transferResponseDto.setDate(transfer.getDateExecution());
-        transferResponseDto.setMotif(transfer.getMotifTransfer());
+        transferResponseDto.setNrAccountTransmitter(transfer.getAccountTransmitter().getNrAccount());
+        transferResponseDto.setNrAccountBeneficiary(transfer.getAccountBeneficiary().getNrAccount());
+        transferResponseDto.setAmount(transfer.getAmount());
+        transferResponseDto.setDateExecution(transfer.getDateExecution());
+        transferResponseDto.setMotif(transfer.getMotif());
 
         return transferResponseDto;
 
     }
 
     @Override
-    public Transfer toTransfer(TransferRequestDto transferRequestDto, Compte compteBeneficiaire, Compte compteEmetteur) {
+    public Transfer toTransfer(TransferRequestDto transferRequestDto, Account accountBeneficiaire, Account accountEmetteur) {
         if (transferRequestDto == null) {
             return null;
         }
         Transfer transfer = new Transfer();
-        transfer.setDateExecution(transferRequestDto.getDate());
-        transfer.setCompteBeneficiaire(compteBeneficiaire);
-        transfer.setCompteEmetteur(compteEmetteur);
-        transfer.setMontantTransfer(transferRequestDto.getMontant());
-        transfer.setMotifTransfer(transferRequestDto.getMotif());
+        transfer.setDateExecution(transferRequestDto.getDateExecution());
+        transfer.setAccountBeneficiary(accountBeneficiaire);
+        transfer.setAccountTransmitter(accountEmetteur);
+        transfer.setAmount(transferRequestDto.getAmount());
+        transfer.setMotif(transferRequestDto.getMotif());
         return transfer;
 
     }

@@ -2,7 +2,7 @@ package ma.octo.assignement.web.facade;
 
 import ma.octo.assignement.dto.request.MoneyDepositRequestDto;
 import ma.octo.assignement.dto.response.MoneyDepositResponseDto;
-import ma.octo.assignement.exceptions.CompteNonExistantException;
+import ma.octo.assignement.exceptions.AccountNotFoundException;
 import ma.octo.assignement.exceptions.TransactionException;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +19,6 @@ public interface MoneyDepositController {
     @GetMapping
     List<MoneyDepositResponseDto> getAllDeposits() ;
     @PostMapping
-    MoneyDepositResponseDto createDeposit (@Valid @RequestBody MoneyDepositRequestDto moneyDepositRequestDto) throws CompteNonExistantException, TransactionException;
+    MoneyDepositResponseDto createDeposit (@Valid @RequestBody MoneyDepositRequestDto moneyDepositRequestDto) throws AccountNotFoundException, TransactionException;
 
 }

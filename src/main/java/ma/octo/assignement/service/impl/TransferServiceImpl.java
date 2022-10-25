@@ -2,14 +2,15 @@ package ma.octo.assignement.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ma.octo.assignement.domain.Compte;
+import ma.octo.assignement.domain.Account;
 import ma.octo.assignement.domain.Transfer;
 import ma.octo.assignement.dto.request.TransferRequestDto;
 import ma.octo.assignement.dto.response.TransferResponseDto;
-import ma.octo.assignement.exceptions.CompteNonExistantException;
+import ma.octo.assignement.exceptions.AccountNotFoundException;
+import ma.octo.assignement.exceptions.InsufficientBalanceException;
 import ma.octo.assignement.exceptions.TransactionException;
 import ma.octo.assignement.mapper.facade.TransferMapper;
-import ma.octo.assignement.repository.CompteRepository;
+import ma.octo.assignement.repository.AccountRepository;
 import ma.octo.assignement.repository.TransferRepository;
 import ma.octo.assignement.service.facade.AuditService;
 import ma.octo.assignement.service.facade.TransferService;
@@ -19,7 +20,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static ma.octo.assignement.domain.util.ApiErrorCodes.COMPTE_NOT_FOUND_EXCEPTION;
+import static ma.octo.assignement.domain.util.ApiErrorCodes.ACCOUNT_NOT_FOUND_EXCEPTION;
 
 @Service
 @Transactional
@@ -28,12 +29,12 @@ import static ma.octo.assignement.domain.util.ApiErrorCodes.COMPTE_NOT_FOUND_EXC
 public class TransferServiceImpl implements TransferService {
 
 
-    public static final int MONTANT_MAXIMAL = 10000;
-    public static final int MONTANT_MINIMAL = 10;
+    public static final int MAX_AMOUNT = 10000;
+    public static final int MIN_AMOUNT = 10;
 
     private final TransferMapper transferMapper;
     private final TransferRepository transferRepository;
-    private final CompteRepository compteRepository;
+    private final AccountRepository accountRepository;
     public final AuditService auditService;
 
 
@@ -44,49 +45,49 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public TransferResponseDto createTransfer(TransferRequestDto transferRequestDto) throws CompteNonExistantException, TransactionException {
-        log.info("Calling findByNrCompte from compteRepository to get compteEmetteur");
-        Compte compteEmetteur = compteRepository.findByNrCompte(transferRequestDto.getNrCompteEmetteur())
-                .orElseThrow(() -> new CompteNonExistantException(COMPTE_NOT_FOUND_EXCEPTION.getMessageKey()));
+    public TransferResponseDto createTransfer(TransferRequestDto transferRequestDto) throws AccountNotFoundException, TransactionException, InsufficientBalanceException {
+        log.info("Calling findByNrAccount from accountRepository to get accountTransmitter");
+        Account accountTransmitter = accountRepository.findByNrAccount(transferRequestDto.getNrAccountTransmitter())
+                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_EXCEPTION.getMessageKey()));
 
-        log.info("Calling findByNrCompte from compteRepository to get compteBeneficiaire");
-        Compte compteBeneficiaire = compteRepository.findByNrCompte(transferRequestDto.getNrCompteBeneficiaire())
-                .orElseThrow(() -> new CompteNonExistantException(COMPTE_NOT_FOUND_EXCEPTION.getMessageKey()));
+        log.info("Calling findByNrAccount from accountRepository to get accountBeneficiary");
+        Account accountBeneficiaire = accountRepository.findByNrAccount(transferRequestDto.getNrAccountBeneficiary())
+                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_EXCEPTION.getMessageKey()));
 
         log.info("Calling validateTransferDetails from TransferServiceImpl");
-        validateTransferDetails(compteEmetteur, transferRequestDto.getMotif(),transferRequestDto.getMontant().intValue());
+        validateTransferDetails(accountTransmitter, transferRequestDto.getMotif(),transferRequestDto.getAmount().intValue());
 
         log.info("Executing transfer");
-        compteEmetteur.setSolde(compteEmetteur.getSolde().subtract(transferRequestDto.getMontant()));
-        compteRepository.save(compteEmetteur);
+        accountTransmitter.setSolde(accountTransmitter.getSolde().subtract(transferRequestDto.getAmount()));
+        accountRepository.save(accountTransmitter);
 
-        compteBeneficiaire
-                .setSolde(new BigDecimal(compteBeneficiaire.getSolde().intValue() + transferRequestDto.getMontant().intValue()));
-        compteRepository.save(compteBeneficiaire);
+        accountBeneficiaire
+                .setSolde(new BigDecimal(accountBeneficiaire.getSolde().intValue() + transferRequestDto.getAmount().intValue()));
+        accountRepository.save(accountBeneficiaire);
 
         log.info("Executing transfer");
-        Transfer transfer = transferMapper.toTransfer(transferRequestDto,compteBeneficiaire,compteEmetteur);
+        Transfer transfer = transferMapper.toTransfer(transferRequestDto, accountBeneficiaire, accountTransmitter);
         transferRepository.save(transfer);
 
         log.info("Saving auditTransfer");
-        auditService.auditTransfer("Transfer depuis " + transferRequestDto.getNrCompteEmetteur() + " vers " + transferRequestDto
-                .getNrCompteBeneficiaire() + " d'un montant de " + transferRequestDto.getMontant()
+        auditService.auditTransfer("Transfer depuis " + transferRequestDto.getNrAccountTransmitter() + " vers " + transferRequestDto
+                .getNrAccountBeneficiary() + " d'un montant de " + transferRequestDto.getAmount()
                 .toString());
 
         return transferMapper.toTransferResponseDto(transfer);
     }
 
-    private void validateTransferDetails(Compte compteEmetteur,
+    private void validateTransferDetails(Account accountTransmitter,
                                          String motif,
-                                         int montant) throws TransactionException {
+                                         int montant) throws TransactionException, InsufficientBalanceException {
         if (montant == 0) {
             log.error("Montant vide");
             throw new TransactionException("Montant vide");
-        } else if (montant < MONTANT_MINIMAL) {
-            log.error("Montant minimal de transfert non atteint {}", MONTANT_MINIMAL);
+        } else if (montant < MIN_AMOUNT) {
+            log.error("Montant minimal de transfert non atteint {}", MIN_AMOUNT);
             throw new TransactionException("Montant minimal de transfert non atteint");
-        } else if (montant > MONTANT_MAXIMAL) {
-            log.error("Montant minimal de transfert non atteint {}", MONTANT_MAXIMAL);
+        } else if (montant > MAX_AMOUNT) {
+            log.error("Montant minimal de transfert non atteint {}", MAX_AMOUNT);
             throw new TransactionException("Montant maximal de transfert dépassé");
         }
 
@@ -95,9 +96,9 @@ public class TransferServiceImpl implements TransferService {
             throw new TransactionException("Motif vide");
         }
 
-        if (compteEmetteur.getSolde().intValue() - montant < 0) {
+        if (accountTransmitter.getSolde().intValue() - montant < 0) {
             log.error("Solde insuffisant pour effectuer le transfert");
-            throw new TransactionException("Solde insuffisant pour effectuer le transfert");
+            throw new InsufficientBalanceException("Solde insuffisant pour effectuer le transfert");
         }
     }
 

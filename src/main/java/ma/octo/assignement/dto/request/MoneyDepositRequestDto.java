@@ -16,13 +16,13 @@ import java.util.Date;
 public class MoneyDepositRequestDto {
 
     @NotBlank(message = "Champ montant est obligatoire")
-    private BigDecimal Montant;
+    private BigDecimal amount;
     @NotBlank(message = "Champ RIB du beneficiaire est obligatoire")
     private String rib;
     @NotBlank(message = "Champ motif est obligatoire")
     private String motif;
     @NotBlank(message = "Champ nom complet est obligatoire")
-    private String fullNameEmetteur;
+    private String fullNameTransmitter;
     @NotBlank(message = "Champ date est obligatoire")
     private Date dateExecution;
 }

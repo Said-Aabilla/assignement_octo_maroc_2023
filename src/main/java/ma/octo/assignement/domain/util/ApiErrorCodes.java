@@ -4,9 +4,9 @@ package ma.octo.assignement.domain.util;
 public enum ApiErrorCodes implements KeyValueError {
 
     MISSING_FIELD_ERROR(0, "field.not.found"),
-    COMPTE_NOT_FOUND_EXCEPTION(1, "compte.not.found"),
+    ACCOUNT_NOT_FOUND_EXCEPTION(1, "account.not.found"),
     TRANSACTION_EXCEPTION(2, "transaction.not.permitted"),
-    SOLDE_DISPONIBLE_INSUFFISANT_EXCEPTION(3, "solde.disponible.insuffisant"),
+    INSUFFICIENT_BALANCE_EXCEPTION(3, "insufficient.balance"),
 
     ;
 

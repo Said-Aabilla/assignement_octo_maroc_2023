@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.octo.assignement.dto.request.TransferRequestDto;
 import ma.octo.assignement.dto.response.TransferResponseDto;
-import ma.octo.assignement.exceptions.CompteNonExistantException;
+import ma.octo.assignement.exceptions.AccountNotFoundException;
+import ma.octo.assignement.exceptions.InsufficientBalanceException;
 import ma.octo.assignement.exceptions.TransactionException;
 import ma.octo.assignement.service.facade.TransferService;
 import ma.octo.assignement.web.facade.TransferController;
@@ -33,7 +34,7 @@ class TransferControllerImpl implements TransferController {
     }
 
     @Override
-    public TransferResponseDto createTransfer(TransferRequestDto transferRequestDto) throws CompteNonExistantException, TransactionException {
+    public TransferResponseDto createTransfer(TransferRequestDto transferRequestDto) throws AccountNotFoundException, TransactionException, InsufficientBalanceException {
         log.info("Calling create Transfer from Transfer service");
 
         return transferService.createTransfer(transferRequestDto);

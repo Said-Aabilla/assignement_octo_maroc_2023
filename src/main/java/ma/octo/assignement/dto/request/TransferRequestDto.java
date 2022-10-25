@@ -1,9 +1,6 @@
 package ma.octo.assignement.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
@@ -16,13 +13,13 @@ import java.util.Date;
 public class TransferRequestDto {
 
     @NotBlank(message = "Champ numero du compte emetteur est obligatoire")
-    private String nrCompteEmetteur;
+    private String nrAccountTransmitter;
     @NotBlank(message = "Champ numero du compte beneficiaire est obligatoire")
-    private String nrCompteBeneficiaire;
+    private String nrAccountBeneficiary;
     @NotBlank(message = "Champ motif est obligatoire")
     private String motif;
     @NotBlank(message = "Champ montant est obligatoire")
-    private BigDecimal montant;
+    private BigDecimal amount;
     @NotBlank(message = "Champ date est obligatoire")
-    private Date date;
+    private Date dateExecution;
 }

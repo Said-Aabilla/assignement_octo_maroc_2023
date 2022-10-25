@@ -1,7 +1,8 @@
 package ma.octo.assignement.web.facade;
 import ma.octo.assignement.dto.request.TransferRequestDto;
 import ma.octo.assignement.dto.response.TransferResponseDto;
-import ma.octo.assignement.exceptions.CompteNonExistantException;
+import ma.octo.assignement.exceptions.AccountNotFoundException;
+import ma.octo.assignement.exceptions.InsufficientBalanceException;
 import ma.octo.assignement.exceptions.TransactionException;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,6 @@ public interface TransferController {
     List<TransferResponseDto> getAllTransfers() ;
 
     @PostMapping
-    TransferResponseDto createTransfer (@Valid @RequestBody TransferRequestDto transferRequestDto) throws CompteNonExistantException, TransactionException;
+    TransferResponseDto createTransfer (@Valid @RequestBody TransferRequestDto transferRequestDto) throws AccountNotFoundException, TransactionException, InsufficientBalanceException;
 
 }

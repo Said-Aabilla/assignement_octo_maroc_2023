@@ -2,6 +2,7 @@ package ma.octo.assignement.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,72 +14,26 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class Transfer {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
   @Column(precision = 16, scale = 2, nullable = false)
-  private BigDecimal montantTransfer;
+  private BigDecimal amount;
 
   @Column
   @Temporal(TemporalType.TIMESTAMP)
   private Date dateExecution;
 
   @ManyToOne
-  private Compte compteEmetteur;
+  private Account accountTransmitter;
 
   @ManyToOne
-  private Compte compteBeneficiaire;
+  private Account accountBeneficiary;
 
   @Column(length = 200)
-  private String motifTransfer;
+  private String motif;
 
-  public BigDecimal getMontantTransfer() {
-    return montantTransfer;
-  }
-
-  public void setMontantTransfer(BigDecimal montantTransfer) {
-    this.montantTransfer = montantTransfer;
-  }
-
-  public Date getDateExecution() {
-    return dateExecution;
-  }
-
-  public void setDateExecution(Date dateExecution) {
-    this.dateExecution = dateExecution;
-  }
-
-  public Compte getCompteEmetteur() {
-    return compteEmetteur;
-  }
-
-  public void setCompteEmetteur(Compte compteEmetteur) {
-    this.compteEmetteur = compteEmetteur;
-  }
-
-  public Compte getCompteBeneficiaire() {
-    return compteBeneficiaire;
-  }
-
-  public void setCompteBeneficiaire(Compte compteBeneficiaire) {
-    this.compteBeneficiaire = compteBeneficiaire;
-  }
-
-  public String getMotifTransfer() {
-    return motifTransfer;
-  }
-
-  public void setMotifTransfer(String motifTransfer) {
-    this.motifTransfer = motifTransfer;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
 }

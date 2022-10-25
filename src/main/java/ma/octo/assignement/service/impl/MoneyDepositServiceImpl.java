@@ -2,14 +2,14 @@ package ma.octo.assignement.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ma.octo.assignement.domain.Compte;
+import ma.octo.assignement.domain.Account;
 import ma.octo.assignement.domain.MoneyDeposit;
 import ma.octo.assignement.dto.request.MoneyDepositRequestDto;
 import ma.octo.assignement.dto.response.MoneyDepositResponseDto;
-import ma.octo.assignement.exceptions.CompteNonExistantException;
+import ma.octo.assignement.exceptions.AccountNotFoundException;
 import ma.octo.assignement.exceptions.TransactionException;
 import ma.octo.assignement.mapper.facade.MoneyDepositMapper;
-import ma.octo.assignement.repository.CompteRepository;
+import ma.octo.assignement.repository.AccountRepository;
 import ma.octo.assignement.repository.MoneyDepositRepository;
 import ma.octo.assignement.service.facade.AuditService;
 import ma.octo.assignement.service.facade.MoneyDepositService;
@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static ma.octo.assignement.domain.util.ApiErrorCodes.COMPTE_NOT_FOUND_EXCEPTION;
+import static ma.octo.assignement.domain.util.ApiErrorCodes.ACCOUNT_NOT_FOUND_EXCEPTION;
 
 @Service
 @Transactional
@@ -32,31 +32,31 @@ public class MoneyDepositServiceImpl implements MoneyDepositService {
 
     private final MoneyDepositMapper moneyDepositMapper;
     private final MoneyDepositRepository moneyDepositRepository;
-    private final CompteRepository compteRepository;
+    private final AccountRepository accountRepository;
     public final AuditService auditService;
 
     @Override
-    public MoneyDepositResponseDto createDeposit(MoneyDepositRequestDto moneyDepositRequestDto) throws CompteNonExistantException, TransactionException {
+    public MoneyDepositResponseDto createDeposit(MoneyDepositRequestDto moneyDepositRequestDto) throws AccountNotFoundException, TransactionException {
 
-        log.info("Calling findByRib from compteRepository to get compteBeneficiaire");
-        Compte compteBeneficiaire = compteRepository.findByRib(moneyDepositRequestDto.getRib())
-                .orElseThrow(() -> new CompteNonExistantException(COMPTE_NOT_FOUND_EXCEPTION.getMessageKey()));
+        log.info("Calling findByRib from accountRepository to get accountBeneficiaire");
+        Account accountBeneficiaire = accountRepository.findByRib(moneyDepositRequestDto.getRib())
+                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_EXCEPTION.getMessageKey()));
 
 
         log.info("Calling validateDepositDetails from MoneyDepositServiceImpl");
-        validateDepositDetails(moneyDepositRequestDto.getMotif(),moneyDepositRequestDto.getMontant().intValue());
+        validateDepositDetails(moneyDepositRequestDto.getMotif(),moneyDepositRequestDto.getAmount().intValue());
 
-        compteBeneficiaire
-                .setSolde(new BigDecimal(compteBeneficiaire.getSolde().intValue() + moneyDepositRequestDto.getMontant().intValue()));
-        compteRepository.save(compteBeneficiaire);
+        accountBeneficiaire
+                .setSolde(new BigDecimal(accountBeneficiaire.getSolde().intValue() + moneyDepositRequestDto.getAmount().intValue()));
+        accountRepository.save(accountBeneficiaire);
 
         log.info("Executing transfer");
-        MoneyDeposit deposit = moneyDepositMapper.toMoneyDeposit(moneyDepositRequestDto, compteBeneficiaire);
+        MoneyDeposit deposit = moneyDepositMapper.toMoneyDeposit(moneyDepositRequestDto, accountBeneficiaire);
         moneyDepositRepository.save(deposit);
 
         log.info("Saving auditDeposit");
-        auditService.auditDeposit("Deposit par " + moneyDepositRequestDto.getFullNameEmetteur() + " vers " + moneyDepositRequestDto
-                .getRib() + " d'un montant de " + moneyDepositRequestDto.getMontant()
+        auditService.auditDeposit("Deposit par " + moneyDepositRequestDto.getFullNameTransmitter() + " vers " + moneyDepositRequestDto
+                .getRib() + " d'un montant de " + moneyDepositRequestDto.getAmount()
                 .toString());
 
         return moneyDepositMapper.toMoneyDepositResponseDto(deposit);

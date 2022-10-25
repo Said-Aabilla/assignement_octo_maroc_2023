@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.octo.assignement.dto.request.MoneyDepositRequestDto;
 import ma.octo.assignement.dto.response.MoneyDepositResponseDto;
-import ma.octo.assignement.exceptions.CompteNonExistantException;
+import ma.octo.assignement.exceptions.AccountNotFoundException;
 import ma.octo.assignement.exceptions.TransactionException;
 import ma.octo.assignement.service.facade.MoneyDepositService;
 import ma.octo.assignement.web.facade.MoneyDepositController;
@@ -30,7 +30,7 @@ public class MoneyDepositControllerImpl implements MoneyDepositController {
     }
 
     @Override
-    public MoneyDepositResponseDto createDeposit(MoneyDepositRequestDto moneyDepositRequestDto) throws CompteNonExistantException, TransactionException {
+    public MoneyDepositResponseDto createDeposit(MoneyDepositRequestDto moneyDepositRequestDto) throws AccountNotFoundException, TransactionException {
         return moneyDepositService.createDeposit(moneyDepositRequestDto);
     }
 }

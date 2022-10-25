@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,10 +14,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransferResponseDto {
-  private String nrCompteEmetteur;
-  private String nrCompteBeneficiaire;
+  private String nrAccountTransmitter;
+  private String nrAccountBeneficiary;
   private String motif;
-  private BigDecimal montant;
-  private Date date;
+  private BigDecimal amount;
+  private Date dateExecution;
 
 }
