@@ -26,11 +26,15 @@ public class MoneyDepositControllerImpl implements MoneyDepositController {
 
     @Override
     public List<MoneyDepositResponseDto> getAllDeposits() {
+        log.info("Calling getAllDeposits from MoneyDepositService");
+
         return  moneyDepositService.getAllDeposits();
     }
 
     @Override
     public MoneyDepositResponseDto createDeposit(MoneyDepositRequestDto moneyDepositRequestDto) throws AccountNotFoundException, TransactionException {
+        log.info("Calling createDeposit from MoneyDepositService");
+
         return moneyDepositService.createDeposit(moneyDepositRequestDto);
     }
 }

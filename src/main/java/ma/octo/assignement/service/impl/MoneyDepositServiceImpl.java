@@ -38,20 +38,20 @@ public class MoneyDepositServiceImpl implements MoneyDepositService {
     @Override
     public MoneyDepositResponseDto createDeposit(MoneyDepositRequestDto moneyDepositRequestDto) throws AccountNotFoundException, TransactionException {
 
-        log.info("Calling findByRib from accountRepository to get accountBeneficiaire");
-        Account accountBeneficiaire = accountRepository.findByRib(moneyDepositRequestDto.getRib())
+        log.info("Calling findByRib from accountRepository to get accountBeneficiary");
+        Account accountBeneficiary = accountRepository.findByRib(moneyDepositRequestDto.getRib())
                 .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_EXCEPTION.getMessageKey()));
 
 
         log.info("Calling validateDepositDetails from MoneyDepositServiceImpl");
         validateDepositDetails(moneyDepositRequestDto.getMotif(),moneyDepositRequestDto.getAmount().intValue());
 
-        accountBeneficiaire
-                .setSolde(new BigDecimal(accountBeneficiaire.getSolde().intValue() + moneyDepositRequestDto.getAmount().intValue()));
-        accountRepository.save(accountBeneficiaire);
+        accountBeneficiary
+                .setSolde(new BigDecimal(accountBeneficiary.getSolde().intValue() + moneyDepositRequestDto.getAmount().intValue()));
+        accountRepository.save(accountBeneficiary);
 
         log.info("Executing transfer");
-        MoneyDeposit deposit = moneyDepositMapper.toMoneyDeposit(moneyDepositRequestDto, accountBeneficiaire);
+        MoneyDeposit deposit = moneyDepositMapper.toMoneyDeposit(moneyDepositRequestDto, accountBeneficiary);
         moneyDepositRepository.save(deposit);
 
         log.info("Saving auditDeposit");
